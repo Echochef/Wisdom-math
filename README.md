@@ -11,7 +11,7 @@
 
 <div align="center">
 
-<img src="./imgs/math.png">
+<img src="https://anonymous.4open.science/r/Wisdom-math-377B/imgs/math.png">
 </div>
 
 <div align="left">
