@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 使用示例路径，替换为你的实际路径
-foler_path="/home/u2308283050/codes/paper_code/data/eval_output"
+foler_path="root_path"
 data_name="math_SFT_seek_answer_stage1_stage2_stage3_deepseek_test"
 input_path="${foler_path}/${data_name}.jsonl"
 output_path="${foler_path}/${data_name}_benchresult.jsonl"

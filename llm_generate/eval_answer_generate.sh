@@ -25,7 +25,7 @@ version="v0"
 
 # First inference step
 
-model_path="/home/u2308283050/model/models--Wisdom-math--wisdom-dsmath-7b/snapshots/5075fe0e6382672d84876db4301a9e0ade9e4d9f"
+model_path="model_path"
 
 input_json_dataset_path="../data/benchmarks/${test_name}_test.json"
 # input_json_dataset_path="../data/vllm_hint/math_eval_gpt.jsonl"
