@@ -1,0 +1,7 @@
+pandas
+latex2sympy
+transformers<4.43
+numpy<2.0.0 # deepspeed 1.3.0 not compatible with numpy 2.0.0 yet
+sympy==1.12.1 # Ensuring ompatibility with antlr4-python3-runtime=4.11
+antlr4-python3-runtime==4.11.1 # NOTE: must be 4.11 for sympy !!!
+orjson

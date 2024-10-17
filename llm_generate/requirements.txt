@@ -1,0 +1,3 @@
+vllm==0.5.1
+latex2sympy
+antlr4-python3-runtime==4.11.1
