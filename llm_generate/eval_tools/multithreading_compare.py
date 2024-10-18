@@ -86,44 +86,16 @@ def evaluate_with_timeout(data, timeout=0.5, dataset='None'):
 
     def target(data, queue):
         try:
-            # labels = [data['gt']] if isinstance(data['gt'], str) else data['gt']
-            labels = data['stage2_result']
-            
-            if dataset=='metamath':
-                pattern = r"The answer is:\s*(.*)"
-                match = re.search(pattern, data['answer'])
-                if match:
-                    data['answer'] = match.group(1)
-            # pred = extract_math_answer(data['answer'], None)
-            pred = extract_math_answer(data['openai_output'], None)
+            labels = [data['gt']] if isinstance(data['gt'], str) else data['gt']
 
-                # pred = extract_ans(data['answer'],)
-            if dataset == 'college':
+            pred = extract_math_answer(data['answer'], None)
+
+            if dataset == 'college' or dataset == 'Olympiad':
                 easy_pred = get_paire_output(data['answer'])
                 flags = [
                     eval(pred, *labels),
                     eval(pred, clean_ref(*labels)),
                     eval(easy_pred, clean_ref(*labels))
-                ]
-            elif dataset == 'dart':
-                pattern = r'The answer is[:\s]*\$\s*(?:\\boxed\{)?(\d+)(?:\})?\$?'
-                result = re.search(pattern, data['answer'], re.IGNORECASE)
-                esay_pred = extract_ans(data['answer'])
-                if '$' in esay_pred:
-                    esay_pred = esay_pred.split('$')[-1]
-                else:
-                    esay_pred = esay_pred.split(':')[-1]
-                if result:
-                    result = result.group(1)
-                # result = extract_ans(result)
-                # print('result',result)
-                # result = result[0]
-                if type(labels) == list:labels = labels[0]
-
-                flags = [
-                    eval(pred, labels),
-                    eval(result, labels),
-                    eval(esay_pred, labels),
                 ]
             else:
                 if type(labels) == int:labels = str(labels)
@@ -134,7 +106,7 @@ def evaluate_with_timeout(data, timeout=0.5, dataset='None'):
             data['compare_flag'] = any(flags)
         except Exception as e:
             print(e)
-            # data['compare_flag'] = False
+            data['compare_flag'] = False
         queue.put(data)
 
     thread = threading.Thread(target=target, args=(data, result_queue))
@@ -154,22 +126,20 @@ def evaluate_with_timeout(data, timeout=0.5, dataset='None'):
     return data
 
 
-def parallel_process(dataframe, num_processes, dataset, output_path):
+def parallel_process(dataframe, num_processes, dataset):
     progress_counter = ProgressCounter(len(dataframe))
 
-    # Partial function to pass the dataset argument
+    # Use partial to pass the dataset argument to the evaluate_with_timeout function
     evaluate_func = partial(evaluate_with_timeout, dataset=dataset)
 
     with mp.Pool(num_processes, initializer=init_worker, initargs=(progress_counter,)) as pool:
-        with open(output_path, 'a', encoding='utf-8') as f_out:
-            for result in tqdm(pool.imap_unordered(evaluate_func, [row for _, row in dataframe.iterrows()]), total=len(dataframe)):
-                # Write each result to the file as it becomes available
-                f_out.write(result.to_json(orient='records', force_ascii=False) + '\n')
+        results = list(tqdm(pool.imap_unordered(evaluate_func, [row for _, row in dataframe.iterrows()]), total=len(dataframe)))
 
-    return None  # Since we are writing directly to file, no need to return DataFrame
+    return pd.DataFrame(results)
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser(description='Evaluate JSONL files.')
     parser.add_argument('--input_path',
                         default='/Users/echoch/Downloads/data/revolve/eval/llama3_8b_math_eval_answer.jsonl', type=str,
@@ -181,7 +151,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    df = pd.read_json(args.input_path, lines=True)[80683:]
+    df = pd.read_json(args.input_path, lines=True)
     print(df.shape, args.input_path)
     dataset = args.dataset
     if args.print:
@@ -189,5 +159,11 @@ if __name__ == "__main__":
         print(df.shape)
         print(df.sample(5))
 
-    parallel_process(df, num_processes=40, dataset=dataset, output_path=args.output_path)
-    print(f"Results are being written to: {args.output_path}")
+    result_df = parallel_process(df, num_processes=20, dataset=dataset)
+    if args.print:
+        # print(result_df.sample(20))
+        print(result_df['compare_flag'].value_counts())
+        print('final accuracy:',len(result_df[result_df['compare_flag']==True])/len(result_df))
+        print(result_df.shape)
+    print(args.output_path)
+    result_df.to_json(args.output_path, lines=True, orient='records', force_ascii=False)

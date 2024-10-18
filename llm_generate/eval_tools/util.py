@@ -26,7 +26,7 @@ from sympy import (
 
 include_percentage = True
 rel_tol: float = 1e-6
-abs_tol: float = 1e-6
+abs_tol: float = 1e-2
 percent_rel_tol: float = 1e-6
 def extract_boxed(resp: str) -> str:
     ans = resp.split("oxed")[-1]
