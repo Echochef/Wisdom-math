@@ -61,7 +61,6 @@ we introduce _WISDOM_, which draws inspiration from the human learning process a
 ## **Installation**
 ### Response Generation
 ```bash
-git clone git@github.com:Echochef/Wisdom-math.git
 cd Wisdom-math/llm_generate
 pip install -r requirements.txt(CUDA above 12.1 Needed)
 bash eval_answer_generate.sh
