@@ -80,7 +80,7 @@ We leverage data parallelism to distribute the benchmark across multiple GPUs, a
 The test results will be saved in `data/eval_output`
 
 ### Evaluation
-We store results using the \boxed{} command and extract them from the CoT using the [MAmmoTH](https://github.com/TIGER-AI-Lab/MAmmoTH) approach. When comparing the extracted answers with the ground truth, we incorporate methods from both MAmmoTH and [Dart-Math](https://github.com/hkust-nlp/dart-math) and we also supplement by corrections for specific types of cases. These steps led to our evaluation results.
+We store results using the \boxed{} command and extract them from the CoT using the [MAmmoTH](https://github.com/TIGER-AI-Lab/MAmmoTH) approach. When comparing the extracted answers with the ground truth, we incorporate methods from both [MAmmoTH](https://github.com/TIGER-AI-Lab/MAmmoTH) and [Dart-Math](https://github.com/hkust-nlp/dart-math) and we also supplement by corrections for specific types of cases. These steps led to our evaluation results.
 
 
 We provide the results of our deepseek-math-7B model on the full evaluation set to facilitate straightforward replication.
@@ -90,6 +90,6 @@ bash eval_results.sh
 ```
 You can modify `data_name` to obtain results for different benchmarks.
 ## Training
-We used [Llama-factory](https://github.com/hiyouga/LLaMA-Factory) for training, and the detailed training configurations can be found in the appendix of the paper. Below is an example of the training configuration file for deepseek-math, which was trained on 88 GPUs.
+We used [Llama-factory](https://github.com/hiyouga/LLaMA-Factory) for training, and the detailed training configurations can be found in the appendix of the paper, which was trained on 88 GPUs.
 
 ### The model has been open-sourced, and the dataset will be released during the first round of reviews.
