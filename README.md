@@ -13,7 +13,7 @@
 <img src="https://anonymous.4open.science/r/Wisdom-math-377B/imgs/main.jpg">
 
 
-<em> Figure 1: The overall workflow of \method, which leverages Progressive Curriculum Synthesis to generate questions and responses with Deepseek Coder V2 and GPT-4o, including weak teacher guiding, critical expert teaching, experts consistency voting, and hard instruction evolving.. </em>
+<em> Figure 1: The overall workflow of _WISDOM_, which leverages Progressive Curriculum Synthesis to generate questions and responses with Deepseek Coder V2 and GPT-4o, including weak teacher guiding, critical expert teaching, experts consistency voting, and hard instruction evolving. </em>
 
 </div>
 
@@ -65,7 +65,7 @@
 
 † In short of College MATH.
 
-<em>Table 1:Main results on in-domain benchmarks, GSM8K and MATH, and out-of-domain benchmarks, including College MATH, Olympiad, TabMWP, TheoremQA, AMC2023, and AIME2024. We select the current well-performing LLMs to evaluate their test accuracy on these benchmarks. Since KPMath-Plus is not open-sourced, the results are quoted from the corresponding paper..</em>
+<em>Table 1:Main results on in-domain benchmarks, GSM8K and MATH, and out-of-domain benchmarks, including College MATH, Olympiad, TabMWP, TheoremQA, AMC2023, and AIME2024. We select the current well-performing LLMs to evaluate their test accuracy on these benchmarks. Since KPMath-Plus is not open-sourced, the results are quoted from the corresponding paper.</em>
 
 ## **Introduction of Paper**
 we introduce _WISDOM_, which draws inspiration from the human learning process and employs curriculum learning to gradually synthesize high-quality CoT data from easy to hard.
@@ -90,6 +90,6 @@ bash eval_results.sh
 ```
 You can modify `data_name` to obtain results for different benchmarks.
 ## Training
-We used [Llama-factory](https://github.com/hiyouga/LLaMA-Factory) for training, and the detailed training configurations can be found in the appendix of the paper, which was trained on 88 GPUs.
+We used [Llama-factory](https://github.com/hiyouga/LLaMA-Factory) for training, and the detailed training configurations can be found in the appendix of the paper, which was trained on 88 A800 GPUs.
 
 ### The models have been open-sourced, and the dataset will be released during the first round of reviews.
