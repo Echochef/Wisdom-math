@@ -5,7 +5,7 @@
 > WISDOM: PROGRESSIVE CURRICULUM SYNTHESIS MAKES LLMS BETTER MATHEMATICAL REASONER
 
 🤗[Datasets&Models@HF](https://huggingface.co/Wisdom-math)
-\| 🐱 [Code@GitHub](https://anonymous.4open.science/r/Wisdom-math-377B)
+| 🐱 [Code@GitHub](https://anonymous.4open.science/r/Wisdom-math-377B)
 
 
 <div align="center">
@@ -84,25 +84,3 @@ We employ [Llama-factory](https://github.com/hiyouga/LLaMA-Factory) for fine-tun
 The training was conducted using 88 NVIDIA A800 GPUs, with a configuration of batch size 1, gradient accumulation of 2, sequence length of 8192, and bf16 precision. 
 We optimized the models with the AdamW  optimizer, setting a learning rate warmup using a cosine schedule with a warmup ratio of 0.03, and trained each model for 3 epochs. 
 The learning rates were adjusted slightly for different models: Mistral 7B at 1e-5, DeepSeekMath-7B at 5e-5, Llama3-8B at 4e-5, and both Llama3-70B and Qwen2-72B at 2e-5.
-
-## **Installation**
-### Response Generation
-```bash
-cd Wisdom-math/llm_generate
-pip install -r requirements.txt(CUDA above 12.1 Needed)
-bash eval_answer_generate.sh
-```
-We leverage data parallelism to distribute the benchmark across multiple GPUs, accelerating the evaluation process. Consequently, when generating responses, you can choose to modify `test_name` `num_splits(Number of GPUs)` `gpus`.
-The test results will be saved in `data/eval_output`
-
-### Evaluation
-We store results using the \boxed{} command and extract them from the CoT using the [MAmmoTH](https://github.com/TIGER-AI-Lab/MAmmoTH) approach. When comparing the extracted answers with the ground truth, we incorporate methods from both [MAmmoTH](https://github.com/TIGER-AI-Lab/MAmmoTH) and [Dart-Math](https://github.com/hkust-nlp/dart-math) and we also supplement by corrections for specific types of cases. These steps led to our evaluation results.
-
-
-We provide the results of our deepseek-math-7B model on the full evaluation set to facilitate straightforward replication.
-```bash
-cd Wisdom-math/llm_generate
-bash eval_results.sh
-```
-You can modify `data_name` to obtain results for different benchmarks.
-### Even if our work is not accepted, we welcome everyone to use our open-sourced models and datasets.All models and datasets have been open-sourced.
